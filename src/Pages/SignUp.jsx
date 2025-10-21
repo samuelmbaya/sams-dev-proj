@@ -73,7 +73,7 @@ const Signup = () => {
       });
 
       // ✅ Redirect to login after success
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       setStatus({ loading: false, message: err.message, error: true });
     }
