@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import loginvid from '../assets/loginvid.mp4';
+const backendurl = import.meta.env.VITE_BACKENDURL;
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -19,7 +20,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/signin', {
+      const res = await fetch(`${backendurl}/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

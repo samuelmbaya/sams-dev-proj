@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import signupvid from "../assets/signupvid.mp4";
+const backendurl = import.meta.env.VITE_BACKEDNURL;
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ const Signup = () => {
 
     try {
       // ✅ Use your backend /signup endpoint
-      const response = await fetch("http://localhost:5000/signup", {
+      const response = await fetch(`${backendurl}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

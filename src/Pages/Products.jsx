@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Products.module.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+const backendurl = import.meta.env.VITE_BACKEDNURL;
 
 const Products = () => {
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ const Products = () => {
 
       const url =
         category === "all"
-          ? "http://localhost:5000/products"
-          : `http://localhost:5000/products?category=${category}`;
+          ? `${backendurl}/products`
+          : `${backendurl}/products?category=${category}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const result = await res.json();
