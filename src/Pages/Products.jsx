@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Products.module.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-const backendurl = import.meta.env.VITE_BACKEDNURL;
+const backendurl = import.meta.env.VITE_BACKENDURL;
 
 const Products = () => {
   const navigate = useNavigate();
