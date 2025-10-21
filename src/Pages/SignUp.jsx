@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import signupvid from "../assets/signupvid.mp4";
-const backendurl = import.meta.env.VITE_BACKEDNURL;
+const backendurl = import.meta.env.VITE_BACKENDURL;
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -168,7 +168,7 @@ const Signup = () => {
           )}
 
           <p className={styles.footerText}>
-            Already have an account? <a href="/">Login</a>
+            Already have an account? <a href="/login">Login</a>
           </p>
 
           <small>
