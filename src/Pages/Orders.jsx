@@ -12,19 +12,24 @@ export default function Orders() {
   const [selected, setSelected] = useState(null);
   const pageSize = 5;
 
+  const userEmail = localStorage.getItem("userEmail"); // 🔑 Get logged-in user email
+
   // Load orders from localStorage
   useEffect(() => {
     setLoading(true);
     try {
       const savedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
-      setOrders(Array.isArray(savedOrders) ? savedOrders : []);
+      const filteredOrders = Array.isArray(savedOrders)
+        ? savedOrders.filter((o) => o.email === userEmail) // ✅ Filter by logged-in user
+        : [];
+      setOrders(filteredOrders);
     } catch (e) {
       console.error("Error loading orders:", e);
       setOrders([]);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [userEmail]);
 
   const statuses = useMemo(() => {
     const set = new Set(orders.map((o) => o.status || "Pending"));
@@ -98,7 +103,8 @@ export default function Orders() {
                 className={styles.refreshBtn}
                 onClick={() => {
                   const saved = JSON.parse(localStorage.getItem("orders") || "[]");
-                  setOrders(saved);
+                  const filteredSaved = saved.filter((o) => o.email === userEmail); // ✅ filter again on refresh
+                  setOrders(filteredSaved);
                 }}
               >
                 Refresh
