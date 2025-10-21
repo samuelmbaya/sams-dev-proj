@@ -1,0 +1,350 @@
+.home {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #000;
+  position: relative;
+}
+
+.navWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.pbanner {
+  width: 100%;
+  height: 100vh;
+  background-image: url('../assets/pbanner.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ph1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 48px;
+  color: #000;
+  font-weight: 700;
+  text-align: center;
+}
+
+.shopicons {
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 24px;
+}
+
+/* Shop Section */
+.pshop {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  width: 93%;
+  margin: 9vh auto;
+}
+
+.shopSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+}
+
+.infoBox {
+  flex: 1;
+}
+
+.title {
+  font-family: 'Inter', sans-serif;
+  font-size: 35px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  color: #fff;
+  font-weight: 400;
+  margin-top: 25px;
+  line-height: 1.6;
+}
+
+.shopBtn {
+  background-color: #fff;
+  color: #000;
+  padding: 12px 28px;
+  border: none;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 30px;
+}
+
+.imageBox {
+  flex: 1;
+}
+
+.imageBox img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Rivalry Section */
+.rivalry {
+  width: 93%;
+  margin: 10vh auto;
+}
+
+.rivalryTitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.rivalCards {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* ✅ Rival Cards with hover + highlight effect */
+.rivalCard {
+  flex: 1;
+  background-color: #060606;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+/* Hover highlight */
+.rivalCard:hover {
+  transform: translateY(-8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.08);
+}
+
+/* Keep image divs unchanged */
+.rivalImage {
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+
+.rivalImage img {
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Text content */
+.rivalContent {
+  padding: 25px 30px;
+}
+
+.rivalContent h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.rivalContent p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #aaa;
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+/* Text highlight on hover */
+.rivalCard:hover .rivalContent h2 {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.rivalCard:hover .rivalContent p {
+  color: #ddd;
+}
+
+/* ✅ Limited Edition Section */
+.limitedSection {
+  width: 93%;
+  margin: 10vh auto;
+}
+
+.limitedTitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+/* ✅ Grid layout */
+.limitedGrid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 25px;
+  align-items: stretch;
+}
+
+/* ✅ Main Image + Info */
+.limitedMain {
+  display: flex;
+  flex-direction: column;
+}
+
+.limitedMain img {
+  width: 100%;
+  height: 95vh;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.limitedMainText {
+  margin-top: 14px;
+}
+
+.limitedMainText h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.limitedMainText p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.price {
+  font-weight: 700;
+  color: #fff;
+  margin-top: 10px;
+}
+
+/* ✅ Side Column aligned to main image height */
+.limitedDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 85vh;
+}
+
+.limitedItem {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.limitedItem img {
+  width: 100%;
+  height: 71%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.limitedItem p {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: #ccc;
+  line-height: 1.5;
+  margin-top: -8px;
+}
+
+/* ✅ Responsive */
+@media (max-width: 900px) {
+  .limitedGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .limitedMain img,
+  .limitedItem img {
+    height: auto;
+  }
+
+  .limitedDetails {
+    height: auto;
+    gap: 25px;
+  }
+}
+
+/* ✅ Info Grid Section */
+.infoGrid {
+  width: 93%;
+  margin: 10vh auto;
+}
+
+.infoHeading {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.infoItems {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 60px 40px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.iconWrapper {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 26px;
+  color: #fff;
+}
+
+.infoItem h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.infoItem p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #aaa;
+  line-height: 1.6;
+}

@@ -1,0 +1,183 @@
+.profilePage {
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  padding: 80px 20px 60px;
+}
+
+.backBtn {
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.profileContainer {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #111;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.leftSection {
+  flex: 1;
+  min-width: 280px;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  flex-direction: column;
+}
+
+.profileImage {
+  width: 180px;
+  height: 180px;
+  border-radius: 100%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.06);
+}
+
+.uploadLabel {
+  margin-top: 15px;
+  background-color: #fff;
+  color: #000;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.uploadLabel:hover {
+  background-color: #ddd;
+}
+
+.fileInput {
+  display: none;
+}
+
+.rightSection {
+  flex: 2;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.username {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoGroup label {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.inputField,
+.textArea {
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.inputField:focus,
+.textArea:focus {
+  border-color: #fff;
+}
+
+.textArea {
+  resize: none;
+  height: 70px;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.editBtn,
+.saveBtn,
+.cancelBtn {
+  padding: 12px 24px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.editBtn {
+  background-color: #fff;
+  color: #000;
+  border: none;
+}
+
+.editBtn:hover {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.saveBtn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.saveBtn:hover {
+  background-color: #218838;
+}
+
+.cancelBtn {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.cancelBtn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+@media (max-width: 900px) {
+  .profileContainer {
+    flex-direction: column;
+    text-align: center;
+  }
+  .rightSection {
+    padding: 30px 20px;
+  }
+}

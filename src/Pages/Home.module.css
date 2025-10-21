@@ -1,0 +1,211 @@
+.home {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #000;
+  padding-top: 70px;
+}
+
+.fixedNavbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: white; /* ✅ Navbar left untouched */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.lptitle {
+  color: #fff;
+  font-size: 50px;
+  font-weight: 700;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 12px 16px;
+}
+
+.lpintro {
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 5vh;
+  font-family: 'Inter', sans-serif;
+  min-height: 80px;
+}
+
+.lpbanner {
+  width: 75%;
+  height: 75vh;
+  margin-top: 5vh;
+  margin-left: 12vw;
+  background-image: url('../assets/lpbanner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.lpbanner:hover {
+  transform: scale(1.01);
+}
+
+.iconsHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6vh 8vw 0 8vw;
+}
+
+.iconheader {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.shopicons {
+  background-color: white;
+  color: black;
+  padding: 12px 24px;
+  border: 1px solid black;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.shopicons:hover {
+  transform: translateY(-2px);
+}
+
+.iconcards {
+  margin-top: 6vh;
+  margin-left: 10.8vw;
+  width: 75%;
+  height: 75vh;
+  display: flex;
+  gap: 2vw;
+}
+
+.airmax1,
+.adisamba,
+.chuckconverse {
+  width: 25vw;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* .airmax1:hover,
+.adisamba:hover,
+.chuckconverse:hover {
+  transform: scale(1.02);
+} */
+
+.airmax1 {
+  background-image: url('../assets/adisamba.png');
+}
+.adisamba {
+  background-image: url('../assets/chuckconverse.png');
+}
+.chuckconverse {
+  background-image: url('../assets/airmax1.png');
+}
+
+.airmax1c,
+.adisambac,
+.chuckconversec {
+  width: 25vw;
+  height: 15vh;
+  margin-top: 60vh;
+  padding-left: 1vw;
+  position: absolute;
+}
+
+.airmax1c1,
+.adisambac1,
+.chuckconversec1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+}
+
+.airmax1c2,
+.adisambac2,
+.chuckconversec2 {
+  font-family: 'Inter', sans-serif;
+  margin-top: -1vh;
+  color: #fff;
+}
+
+.soul2soul {
+  box-sizing: border-box;
+  width: 30vw;
+  height: 70vh;
+  margin-left: 7.5vw;
+  margin-top: 7vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.soulh1 {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  line-height: 1.1;
+  font-size: 1.75rem;
+  flex: 0 0 auto;
+  color: #fff;
+}
+
+.soulsub {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  flex: 0 0 auto;
+  color: #fff;
+}
+
+.soulp {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0;
+  padding-top: 1.8rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  line-height: 1.4;
+  color: #ddd;
+}
+
+.soulimg {
+  position: absolute;
+  margin-left: 50vw;
+  margin-top: -70vh;
+  width: 40vw;
+  height: 70vh;
+  background-image: url('../assets/soulimg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
