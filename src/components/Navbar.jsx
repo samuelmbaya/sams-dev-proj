@@ -28,7 +28,7 @@ const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>
+      <div className={styles.logo} onClick={() => window.location.href = '/home'}>
         Sneaker<span>Verse</span>
       </div>
       <div className={styles.links}>
