@@ -58,10 +58,10 @@ const Login = () => {
           playsInline
         />
         <div className={styles.textOverlay}>
-          <h2>Welcome back to SneakerVerse</h2>
+          <h2>Welcome back to ShoeNation.RSA</h2>
           <p>Access your account and explore premium designs.</p>
           <span>
-            <strong>SneakerVerse</strong> — Your gateway to fashion excellence.
+            <strong>ShoeNation.RSA</strong> — Your gateway to fashion excellence.
           </span>
         </div>
       </div>

@@ -94,7 +94,7 @@ const Signup = () => {
           <h2>Join a network of visionaries.</h2>
           <p>Unlock premium design resources tailored for you.</p>
           <span>
-            <strong>SneakerVerse</strong> — Your gateway to fashion excellence.
+            <strong>ShoeNation.RSA</strong> — Your gateway to fashion excellence.
           </span>
         </div>
       </div>

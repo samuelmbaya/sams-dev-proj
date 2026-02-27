@@ -16,14 +16,14 @@ const About = () => {
       <div className={styles.aboutContainer}>
         <div className={styles.leftSection}>
           <h1 className={styles.title}>
-            Welcome to <br /> <span>SneakerVerse</span>
+            Welcome to <br /> <span>ShoeNation.RSA</span>
           </h1>
           <p className={styles.subtitle}>Where sneaker culture lives and breathes.</p>
 
           <div className={styles.storySection}>
             <h3>Our Story</h3>
             <p>
-              SneakerVerse began with a simple idea: to create a space where sneaker
+              ShoeNation.RSA began with a simple idea: to create a space where sneaker
               enthusiasts—from collectors to casual wearers—can connect, learn, and stay
               in the know. What started as a passion project quickly evolved into a
               growing community of people who love sneakers for their history, design,
@@ -34,7 +34,7 @@ const About = () => {
           <div className={styles.aboutSection}>
             <h3>What We're About</h3>
             <p>
-              At SneakerVerse, we cover everything from the hottest drops and detailed
+              At ShoeNation.RSA, we cover everything from the hottest drops and detailed
               reviews to care tips, trend forecasts, and style inspiration. Whether
               you're copping your first pair or your fiftieth, we've got something for
               you.

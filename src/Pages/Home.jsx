@@ -51,7 +51,7 @@ const Home = () => {
       <div className={styles.lpintro}>
         <TextType
           text={[
-            "Step into the Sneakerverse — your ultimate destination for exclusive drops.",
+            "Step into the ShoeNation.RSA — your ultimate destination for exclusive drops.",
             "Iconic kicks, rare finds, and timeless sneaker culture await.",
             "Discover what’s next in the world of sneakers!"
           ]}
