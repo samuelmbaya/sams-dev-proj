@@ -9,7 +9,7 @@ const Footer = () => {
       <div className={styles.footerContent}>
         {/* Logo / Title */}
         <div className={styles.footerSection}>
-          <h2 className={styles.logo}>SneakerVerse</h2>
+          <h2 className={styles.logo}>ShoeNation.RSA</h2>
 
           {/* Social Icons */}
           <div className={styles.socialIcons}>
