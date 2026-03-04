@@ -1,53 +1,348 @@
+/* ── Import to match Products page ─────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600&display=swap');
+
+/* ── Variables (mirrors Products.jsx) ──────────────────────────────── */
+:root {
+  --sn-red:    #E8192C;
+  --sn-bg:     #080808;
+  --sn-line:   #1F1F1F;
+  --sn-muted:  #444;
+  --sn-sub:    #777;
+  --sn-text:   #E8E8E8;
+  --sn-font-d: 'Barlow Condensed', sans-serif;
+  --sn-font-b: 'Barlow', sans-serif;
+}
+
+/* ── Navbar shell ───────────────────────────────────────────────────── */
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  background-color: black;
-  font-family: Arial, sans-serif;
+  justify-content: space-between;
+  padding: 0 36px;
+  height: 64px;
+  background: rgba(8, 8, 8, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--sn-line);
+  font-family: var(--sn-font-b);
+  position: relative;
+  transition: box-shadow 0.3s ease;
+  z-index: 100;
 }
 
+/* red left-edge accent line */
+.navbar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--sn-red);
+  border-radius: 0 2px 2px 0;
+}
+
+.scrolled {
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Logo ───────────────────────────────────────────────────────────── */
 .logo {
-  font-weight: bold;
+  font-family: var(--sn-font-d);
+  font-weight: 900;
   font-size: 22px;
-  color: white;
-  text-decoration: none; /* remove underline */
-  cursor: pointer; /* show it's clickable */
+  letter-spacing: 0.5px;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  transition: opacity 0.2s;
+  user-select: none;
+  flex-shrink: 0;
 }
 
+.logo:hover { opacity: 0.85; }
+
+/* "Nation" — lighter weight */
 .logo span {
-  font-weight: 400;
+  font-weight: 600;
+  color: #fff;
 }
 
+/* ".RSA" — red, italic */
+.logo em {
+  font-style: normal;
+  color: var(--sn-red);
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+/* ── Desktop nav links ──────────────────────────────────────────────── */
 .links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 4px;
 }
 
-.links a {
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-}
-
-.shopButton {
-  background-color: white;
-  color: black;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.cartBadge {
-  background-color: red;
-  color: white;
+.link {
+  font-family: var(--sn-font-d);
+  font-weight: 800;
   font-size: 12px;
-  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sn-muted);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.active {
+  color: #fff;
+}
+
+/* active red dot indicator */
+.activeDot {
+  display: block;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  padding: 2px 6px;
-  margin-left: 5px;
-  vertical-align: top;
+  background: var(--sn-red);
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: dotPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dotPop {
+  from { transform: translateX(-50%) scale(0); opacity: 0; }
+  to   { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+/* ── Right side: cart + burger ──────────────────────────────────────── */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Cart button ────────────────────────────────────────────────────── */
+.cartBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--sn-line);
+  color: var(--sn-sub);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.cartBtn:hover {
+  border-color: #fff;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--sn-red);
+  color: #fff;
+  font-family: var(--sn-font-d);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  border-radius: 10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--sn-bg);
+  animation: badgePop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes badgePop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* ── Hamburger (mobile only) ────────────────────────────────────────── */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  background: transparent;
+  border: 1px solid var(--sn-line);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.2s;
+}
+
+.burger:hover { border-color: var(--sn-sub); }
+
+.burger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--sn-sub);
+  border-radius: 2px;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+/* X state */
+.burgerOpen span:nth-child(1) { transform: translateY(7px) rotate(45deg);  background: #fff; }
+.burgerOpen span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burgerOpen span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: #fff; }
+
+/* ── Mobile Drawer ──────────────────────────────────────────────────── */
+.drawer {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: var(--sn-bg);
+  border-bottom: 1px solid var(--sn-line);
+  z-index: 999;
+  transform: translateY(-110%);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.drawerOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawerInner {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px 24px;
+  gap: 2px;
+}
+
+.drawerLink {
+  font-family: var(--sn-font-d);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sn-muted);
+  text-decoration: none;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--sn-line);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawerLink::before {
+  content: '';
+  width: 0;
+  height: 2px;
+  background: var(--sn-red);
+  border-radius: 2px;
+  transition: width 0.2s;
+  flex-shrink: 0;
+}
+
+.drawerLink:hover,
+.drawerActive {
+  color: #fff;
+}
+
+.drawerLink:hover::before,
+.drawerActive::before {
+  width: 20px;
+}
+
+.drawerActive { color: #fff; }
+
+.drawerCartLink {
+  font-family: var(--sn-font-d);
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sn-red);
+  text-decoration: none;
+  padding: 14px 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: opacity 0.2s;
+}
+
+.drawerCartLink:hover { opacity: 0.8; }
+
+.drawerBadge {
+  background: var(--sn-red);
+  color: #fff;
+  font-family: var(--sn-font-d);
+  font-size: 11px;
+  font-weight: 900;
+  border-radius: 10px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Backdrop ───────────────────────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 64px 0 0 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; }
+  .links  { display: none; }
+  .burger { display: flex; }
+}
+
+@media (max-width: 400px) {
+  .logo { font-size: 18px; }
+  .logo em { font-size: 15px; }
 }
