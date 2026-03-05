@@ -100,7 +100,7 @@ export default function Login() {
                 className={styles.input}
                 type="email" id="lemail" name="email"
                 value={formData.email} onChange={handleChange}
-                placeholder="you@example.com" autoComplete="email" required
+                placeholder="Email" autoComplete="email" required
               />
             </div>
 

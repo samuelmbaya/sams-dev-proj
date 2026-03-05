@@ -110,7 +110,7 @@ export default function Signup() {
                 className={styles.input}
                 type="text" id="sfullName" name="fullName"
                 value={formData.fullName} onChange={handleChange}
-                placeholder="Jane Smith" autoComplete="name" required
+                placeholder="Name & Surname" autoComplete="name" required
               />
             </div>
 
@@ -120,7 +120,7 @@ export default function Signup() {
                 className={styles.input}
                 type="email" id="semail" name="email"
                 value={formData.email} onChange={handleChange}
-                placeholder="you@example.com" autoComplete="email" required
+                placeholder="Email" autoComplete="email" required
               />
             </div>
 
