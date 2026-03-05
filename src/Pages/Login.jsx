@@ -89,7 +89,7 @@ export default function Login() {
 
           <div className={styles.titleBlock}>
             <h2 className={styles.title}>Log<br /><span className={styles.titleRed}>In.</span></h2>
-            <p className={styles.titleSub}>New here? <Link to="/signup" className={styles.titleLink}>Create an account →</Link></p>
+            <p className={styles.titleSub}>New here? <Link to="/" className={styles.titleLink}>Create an account →</Link></p>
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit} noValidate>
