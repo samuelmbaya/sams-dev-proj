@@ -40,8 +40,8 @@ export default function Orders() {
     let list = orders;
     if (statusFilter !== "All") list = list.filter(o => o.status === statusFilter);
     if (q) list = list.filter(o =>
-      (o.id       && o.id.toLowerCase().includes(q)) ||
-      (o.customer && o.customer.toLowerCase().includes(q)) ||
+      (o.id        && o.id.toLowerCase().includes(q)) ||
+      (o.customer  && o.customer.toLowerCase().includes(q)) ||
       (o.firstName && o.firstName.toLowerCase().includes(q)) ||
       (o.lastName  && o.lastName.toLowerCase().includes(q)) ||
       String(o.total).includes(q)
@@ -51,7 +51,6 @@ export default function Orders() {
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   useEffect(() => { if (page > totalPages) setPage(1); }, [totalPages, page]);
-
   const pageItems = filtered.slice((page - 1) * pageSize, page * pageSize);
 
   const STATUS_META = {
@@ -67,7 +66,6 @@ export default function Orders() {
     return STATUS_META[key] || { label: raw || "Pending", color: "#777", bg: "rgba(120,120,120,.1)" };
   };
 
-  // close modal on Escape
   useEffect(() => {
     const h = e => { if (e.key === "Escape") setSelected(null); };
     document.addEventListener("keydown", h);
@@ -76,26 +74,44 @@ export default function Orders() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.navWrap}><Navbar /></div>
+      <div className={styles.fixedNav}><Navbar /></div>
 
       <main className={styles.main}>
+        <div className={styles.grain} />
 
-        {/* ── HEADER ── */}
+        {/* ══════════════════════════
+            HEADER
+        ══════════════════════════ */}
         <div className={styles.header}>
+          {/* bg watermark */}
+          <span className={styles.headerBg} aria-hidden="true">ORDERS</span>
+
           <div className={styles.eyebrow}>
-            <div className={styles.redBar} />
+            <span className={styles.eyeDot} />
             <span>ShoeNation RSA · Account</span>
           </div>
+
           <h1 className={styles.heading}>
-            Your<br />
-            <span className={styles.headingOutline}>Orders.</span>
+            <span className={styles.headingLine}>YOUR</span>
+            <span className={styles.headingLine}>
+              <em className={styles.headingStroke}>ORDERS.</em>
+            </span>
           </h1>
+
           {!loading && (
             <p className={styles.headingSub}>
               {orders.length === 0
                 ? "No orders yet — the drop is waiting."
                 : `${orders.length} order${orders.length !== 1 ? "s" : ""} placed`}
             </p>
+          )}
+
+          {/* order count badge */}
+          {!loading && orders.length > 0 && (
+            <div className={styles.countBadge}>
+              <span className={styles.countNum}>{orders.length}</span>
+              <span className={styles.countLabel}>order{orders.length !== 1 ? "s" : ""}</span>
+            </div>
           )}
         </div>
 
@@ -141,45 +157,62 @@ export default function Orders() {
 
             {/* ── TABLE ── */}
             <div className={styles.tableWrap}>
+              {/* top red accent */}
+              <div className={styles.tableAccent} />
+
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    {["Order ID", "Customer", "Total", "Status", ""].map(h => (
-                      <th key={h}>{h}</th>
+                    {["Order ID", "Customer", "Total", "Status", ""].map((h, i) => (
+                      <th key={i}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {pageItems.length === 0 ? (
                     <tr>
-                      <td colSpan="5" className={styles.empty}>
-                        <div className={styles.emptyIcon}>📦</div>
-                        <div className={styles.emptyTitle}>No orders found</div>
-                        <div className={styles.emptyDesc}>Try adjusting your search or filter.</div>
+                      <td colSpan="5" className={styles.emptyTd}>
+                        <span className={styles.emptyBg} aria-hidden="true">0</span>
+                        <div className={styles.emptyInner}>
+                          <div className={styles.emptyEye}>
+                            <span className={styles.eyeBar} />
+                            <span>Your Orders</span>
+                          </div>
+                          <div className={styles.emptyTitle}>Nothing<br /><em className={styles.emptyStroke}>Here.</em></div>
+                          <div className={styles.emptyDesc}>Try adjusting your search or filter.</div>
+                        </div>
                       </td>
                     </tr>
                   ) : (
                     pageItems.map((o, i) => {
                       const st = getStatus(o.status);
                       const customer = o.customer || `${o.firstName || ""} ${o.lastName || ""}`.trim() || "—";
+                      const idx = (page - 1) * pageSize + i;
                       return (
                         <tr key={o.id || i} className={styles.tableRow}>
                           <td>
-                            <span className={styles.orderId}>{o.id || `ORD-${String(i + 1).padStart(4,"0")}`}</span>
+                            <div className={styles.orderIdWrap}>
+                              <span className={styles.orderIdx}>{String(idx + 1).padStart(2, "0")}</span>
+                              <span className={styles.orderId}>{o.id || `ORD-${String(idx + 1).padStart(4,"0")}`}</span>
+                            </div>
                           </td>
                           <td className={styles.customerCell}>{customer}</td>
                           <td>
                             <span className={styles.totalCell}>R{Number(o.total || 0).toFixed(2)}</span>
                           </td>
                           <td>
-                            <span className={styles.statusBadge} style={{ color: st.color, background: st.bg, border: `1px solid ${st.color}30` }}>
+                            <span
+                              className={styles.statusBadge}
+                              style={{ color: st.color, background: st.bg, borderColor: `${st.color}30` }}
+                            >
                               <span className={styles.statusDot} style={{ background: st.color }} />
                               {st.label}
                             </span>
                           </td>
                           <td>
                             <button className={styles.viewBtn} onClick={() => setSelected(o)}>
-                              View →
+                              <span className={styles.viewBtnBg} />
+                              <span className={styles.viewBtnLabel}>View →</span>
                             </button>
                           </td>
                         </tr>
@@ -193,30 +226,51 @@ export default function Orders() {
             {/* ── PAGINATION ── */}
             {filtered.length > pageSize && (
               <div className={styles.pagination}>
-                <button className={styles.pageBtn} onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>← Prev</button>
+                <button className={styles.pageBtn}
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}>
+                  ← Prev
+                </button>
                 <div className={styles.pageDots}>
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
-                    <button key={n} className={`${styles.pageDot} ${n === page ? styles.pageDotActive : ""}`} onClick={() => setPage(n)}>{n}</button>
+                    <button key={n}
+                      className={`${styles.pageDot} ${n === page ? styles.pageDotActive : ""}`}
+                      onClick={() => setPage(n)}>
+                      {n}
+                    </button>
                   ))}
                 </div>
-                <button className={styles.pageBtn} onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Next →</button>
+                <button className={styles.pageBtn}
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}>
+                  Next →
+                </button>
               </div>
             )}
           </>
         )}
       </main>
 
-      {/* ── ORDER DETAIL MODAL ── */}
+      {/* ══════════════════════════
+          ORDER DETAIL MODAL
+      ══════════════════════════ */}
       {selected && (
         <div className={styles.overlay} onClick={() => setSelected(null)}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            {/* top accent */}
             <div className={styles.modalAccent} />
+            {/* bottom accent */}
+            <div className={styles.modalAccentBottom} />
+            {/* grain */}
+            <div className={styles.modalGrain} />
+            {/* "PDT" watermark */}
+            <span className={styles.modalBg} aria-hidden="true">ORD</span>
 
             {/* header */}
             <div className={styles.modalHeader}>
               <div>
                 <div className={styles.modalEyebrow}>
-                  <div className={styles.redBar} />
+                  <span className={styles.eyeBar} />
                   <span>Order Details</span>
                 </div>
                 <h3 className={styles.modalTitle}>{selected.id || "Order"}</h3>
@@ -230,7 +284,10 @@ export default function Orders() {
                 ["Customer", selected.customer || `${selected.firstName || ""} ${selected.lastName || ""}`.trim() || "—"],
                 ["Status",   selected.status || "Pending"],
                 ["Total",    `R${Number(selected.total || 0).toFixed(2)}`],
-                ["Date",     selected.createdAt ? new Date(selected.createdAt).toLocaleDateString("en-ZA", { year:"numeric", month:"short", day:"numeric" }) : "—"],
+                ["Date",     selected.createdAt
+                  ? new Date(selected.createdAt).toLocaleDateString("en-ZA", { year:"numeric", month:"short", day:"numeric" })
+                  : "—"
+                ],
               ].map(([k, v]) => (
                 <div key={k} className={styles.metaItem}>
                   <span className={styles.metaKey}>{k}</span>
@@ -239,12 +296,13 @@ export default function Orders() {
               ))}
             </div>
 
-            {/* items */}
+            {/* items heading */}
             <div className={styles.itemsHeading}>
-              <div className={styles.redBar} />
+              <span className={styles.eyeBar} />
               <span>Items Ordered</span>
             </div>
 
+            {/* items list */}
             <div className={styles.itemsList}>
               {(selected.items || selected.cartItems || []).map((it, idx) => (
                 <div key={idx} className={styles.itemRow}>
@@ -263,7 +321,7 @@ export default function Orders() {
               ))}
             </div>
 
-            {/* total footer */}
+            {/* footer total */}
             <div className={styles.modalFooter}>
               <span className={styles.modalFooterLabel}>Order Total</span>
               <span className={styles.modalFooterTotal}>R{Number(selected.total || 0).toFixed(2)}</span>
