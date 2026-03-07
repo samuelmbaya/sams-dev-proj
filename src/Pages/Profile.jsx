@@ -36,31 +36,30 @@ export default function Profile() {
   const [saved,     setSaved]     = useState(false);
   const [form, setForm] = useState({ name:"", email:"", phone:"", address:"", bio:"", profilePic:"" });
 
-  /* orders & wishlist from localStorage */
   const [orders,   setOrders]   = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
-  /* addresses */
   const [addresses,   setAddresses]   = useState([]);
-  const [addrEdit,    setAddrEdit]    = useState(null);   // null | index | "new"
+  const [addrEdit,    setAddrEdit]    = useState(null);
   const [addrForm,    setAddrForm]    = useState({ label:"Home", street:"", city:"", province:"", code:"", isDefault:false });
 
-  /* security */
   const [pwForm,     setPwForm]     = useState({ current:"", next:"", confirm:"" });
   const [pwError,    setPwError]    = useState("");
   const [pwSuccess,  setPwSuccess]  = useState(false);
   const [showPw,     setShowPw]     = useState({ c:false, n:false, cf:false });
 
+  /* focused field tracking for accent animations */
+  const [focusedField, setFocusedField] = useState(null);
+
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("user"));
+    const stored  = JSON.parse(localStorage.getItem("user"));
     const loggedIn = localStorage.getItem("loggedIn");
     if (!stored || loggedIn === "false") { navigate("/login"); return; }
     setUser(stored);
     setForm(stored);
 
     const raw = JSON.parse(localStorage.getItem("orders") || "[]");
-    const email = stored.email;
-    setOrders(raw.filter(o => o.email === email).slice(0, 5));
+    setOrders(raw.filter(o => o.email === stored.email).slice(0, 5));
 
     const wl = JSON.parse(localStorage.getItem("wishlist") || "[]");
     setWishlist(wl);
@@ -69,7 +68,6 @@ export default function Profile() {
     setAddresses(addr);
   }, [navigate]);
 
-  /* ── profile save ── */
   const handleSave = () => {
     const updated = { ...user, ...form };
     localStorage.setItem("user", JSON.stringify(updated));
@@ -79,7 +77,6 @@ export default function Profile() {
     setTimeout(() => setSaved(false), 3000);
   };
 
-  /* ── image upload ── */
   const handleImageChange = e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -88,7 +85,6 @@ export default function Profile() {
     reader.readAsDataURL(file);
   };
 
-  /* ── wishlist remove ── */
   const removeWishlist = id => {
     const next = wishlist.filter(i => i.id !== id);
     setWishlist(next);
@@ -104,7 +100,6 @@ export default function Profile() {
     localStorage.setItem("cart", JSON.stringify(next));
   };
 
-  /* ── address helpers ── */
   const saveAddress = () => {
     let next;
     if (addrEdit === "new") {
@@ -140,22 +135,18 @@ export default function Profile() {
     setAddrForm(addresses[i]);
   };
 
-  /* ── password change (local only) ── */
   const handlePwChange = e => {
     e.preventDefault();
     setPwError(""); setPwSuccess(false);
     if (!pwForm.current) return setPwError("Enter your current password.");
     if (pwForm.next.length < 8) return setPwError("New password must be at least 8 characters.");
     if (pwForm.next !== pwForm.confirm) return setPwError("Passwords do not match.");
-    // In a real app this would call the backend
     setPwSuccess(true);
     setPwForm({ current:"", next:"", confirm:"" });
     setTimeout(() => setPwSuccess(false), 4000);
   };
 
-  /* ── logout ── */
   const handleLogout = () => {
-    // Preserve user profile data — only clear the active session flag
     localStorage.setItem("loggedIn", "false");
     localStorage.removeItem("userEmail");
     navigate("/login");
@@ -169,31 +160,52 @@ export default function Profile() {
   /* ════════════════════════════ RENDER ════════════════════════════ */
   return (
     <div className={styles.page}>
-      <div className={styles.navWrap}><Navbar /></div>
+      <div className={styles.fixedNav}><Navbar /></div>
+      <div className={styles.grain} />
 
       <main className={styles.main}>
 
-        {/* ── PAGE HEADER ── */}
+        {/* ══════════════════════════
+            PAGE HEADER
+        ══════════════════════════ */}
         <div className={styles.pageHeader}>
-          <div className={styles.pageEye}>
-            <div className={styles.eyeBar} />
+          {/* bg watermark */}
+          <span className={styles.headerBg} aria-hidden="true">ACCT</span>
+
+          <div className={styles.eyebrow}>
+            <span className={styles.eyeDot} />
             <span>ShoeNation RSA · Account</span>
           </div>
+
           <div className={styles.headerRow}>
             <h1 className={styles.pageTitle}>
-              My<br /><span className={styles.titleOutline}>Account.</span>
+              <span className={styles.titleLine}>MY</span>
+              <span className={styles.titleLine}>
+                <em className={styles.titleStroke}>ACCOUNT.</em>
+              </span>
             </h1>
             <button className={styles.logoutBtn} onClick={handleLogout}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              Log Out
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span className={styles.logoutBtnBg} />
+              <span className={styles.logoutBtnLabel}>Log Out</span>
             </button>
           </div>
         </div>
 
-        {/* ── IDENTITY BAR ── */}
+        {/* ══════════════════════════
+            IDENTITY BAR
+        ══════════════════════════ */}
         <div className={styles.identityBar}>
+          <div className={styles.identityAccent} />
+          <div className={styles.identityGrain} />
+          <span className={styles.identityBg} aria-hidden="true">ID</span>
+
           <div className={styles.identityLeft}>
-            <div className={styles.avatarWrap} onClick={() => editMode && fileRef.current?.click()}>
+            {/* avatar */}
+            <div
+              className={styles.avatarWrap}
+              onClick={() => editMode && fileRef.current?.click()}
+            >
               {avatar
                 ? <img src={avatar} alt="Profile" className={styles.avatarImg} />
                 : <div className={styles.avatarInitials}>{initials}</div>
@@ -207,19 +219,25 @@ export default function Profile() {
               )}
               <input ref={fileRef} type="file" accept="image/*" onChange={handleImageChange} className={styles.fileInput} />
             </div>
+
             <div className={styles.identityInfo}>
               <h2 className={styles.identityName}>{user.name || "Unnamed User"}</h2>
               <p className={styles.identityEmail}>{user.email}</p>
-              <div className={styles.memberBadge}><span className={styles.memberDot} />ShoeNation Member</div>
+              <div className={styles.memberBadge}>
+                <span className={styles.memberDot} />
+                ShoeNation Member
+              </div>
             </div>
           </div>
+
           <div className={styles.identityStats}>
             {[
-              { n: orders.length,   l: "Orders"     },
-              { n: wishlist.length, l: "Saved"       },
-              { n: addresses.length,l: "Addresses"  },
-            ].map(({ n, l }) => (
+              { n: orders.length,    l: "Orders",    idx: "01" },
+              { n: wishlist.length,  l: "Saved",     idx: "02" },
+              { n: addresses.length, l: "Addresses", idx: "03" },
+            ].map(({ n, l, idx }) => (
               <div key={l} className={styles.iStat}>
+                <span className={styles.iStatIdx}>{idx}</span>
                 <span className={styles.iStatN}>{n}</span>
                 <span className={styles.iStatL}>{l}</span>
               </div>
@@ -227,14 +245,19 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* ── TAB BAR ── */}
+        {/* ══════════════════════════
+            TAB BAR
+        ══════════════════════════ */}
         <div className={styles.tabBar}>
-          {TABS.map(t => (
+          {TABS.map((t, i) => (
             <button
               key={t.key}
               className={`${styles.tabBtn} ${activeTab === t.key ? styles.tabBtnOn : ""}`}
               onClick={() => setActiveTab(t.key)}
-            >{t.label}</button>
+            >
+              <span className={styles.tabIdx}>0{i+1}</span>
+              {t.label}
+            </button>
           ))}
         </div>
 
@@ -243,48 +266,82 @@ export default function Profile() {
         ══════════════════════════════════════════ */}
         {activeTab === "profile" && (
           <div className={styles.tabPanel}>
+            <div className={styles.sectionBg} aria-hidden="true">01</div>
+
             <div className={styles.panelHead}>
               <div>
-                <div className={styles.sectionEye}><div className={styles.eyeBar} /><span>Personal Info</span></div>
+                <div className={styles.sectionEye}>
+                  <span className={styles.eyeBar} />
+                  <span>Personal Info</span>
+                </div>
               </div>
               <div className={styles.panelActions}>
                 {editMode ? (
                   <>
-                    <button className={styles.btnSave} onClick={handleSave}>Save Changes</button>
+                    <button className={styles.btnSave} onClick={handleSave}>
+                      <span className={styles.btnSaveBg} />
+                      <span className={styles.btnSaveLabel}>Save Changes</span>
+                    </button>
                     <button className={styles.btnGhost} onClick={() => { setForm(user); setEditMode(false); }}>Cancel</button>
                   </>
                 ) : (
-                  <button className={styles.btnWhite} onClick={() => setEditMode(true)}>Edit Profile</button>
+                  <button className={styles.btnWhite} onClick={() => setEditMode(true)}>
+                    <span className={styles.btnWhiteBg} />
+                    <span className={styles.btnWhiteLabel}>Edit Profile</span>
+                  </button>
                 )}
               </div>
             </div>
 
             {saved && (
               <div className={styles.successBox}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                 Profile updated successfully.
               </div>
             )}
 
             <div className={styles.fieldsGrid}>
               {[
-                { key:"name",    label:"Full Name",   type:"text",  placeholder:"Jane Smith"          },
-                { key:"email",   label:"Email",       type:"email", placeholder:"you@example.com"     },
-                { key:"phone",   label:"Phone",       type:"tel",   placeholder:"+27 82 000 0000"     },
-                { key:"address", label:"Address",     type:"text",  placeholder:"Joburg, Gauteng"     },
+                { key:"name",    label:"Full Name",  type:"text",  placeholder:"Jane Smith"      },
+                { key:"email",   label:"Email",      type:"email", placeholder:"you@example.com" },
+                { key:"phone",   label:"Phone",      type:"tel",   placeholder:"+27 82 000 0000" },
+                { key:"address", label:"Address",    type:"text",  placeholder:"Joburg, Gauteng" },
               ].map(({ key, label, type, placeholder }) => (
-                <div key={key} className={styles.field}>
+                <div
+                  key={key}
+                  className={styles.field}
+                  data-focused={focusedField === key ? "true" : undefined}
+                >
+                  <span className={styles.fieldAccentBar} />
                   <label className={styles.fieldLabel}>{label}</label>
                   {editMode
-                    ? <input className={styles.input} type={type} name={key} value={form[key]||""} onChange={e => setForm(f=>({...f,[e.target.name]:e.target.value}))} placeholder={placeholder} />
+                    ? <input
+                        className={styles.input}
+                        type={type}
+                        name={key}
+                        value={form[key]||""}
+                        onChange={e => setForm(f=>({...f,[e.target.name]:e.target.value}))}
+                        placeholder={placeholder}
+                        onFocus={() => setFocusedField(key)}
+                        onBlur={() => setFocusedField(null)}
+                      />
                     : <span className={styles.fieldValue}>{user[key] || <span className={styles.fieldEmpty}>Not set</span>}</span>
                   }
                 </div>
               ))}
-              <div className={`${styles.field} ${styles.fieldFull}`}>
+              <div className={`${styles.field} ${styles.fieldFull}`} data-focused={focusedField === "bio" ? "true" : undefined}>
+                <span className={styles.fieldAccentBar} />
                 <label className={styles.fieldLabel}>Bio</label>
                 {editMode
-                  ? <textarea className={`${styles.input} ${styles.textarea}`} name="bio" value={form.bio||""} onChange={e => setForm(f=>({...f,bio:e.target.value}))} placeholder="Tell us about yourself…" />
+                  ? <textarea
+                      className={`${styles.input} ${styles.textarea}`}
+                      name="bio"
+                      value={form.bio||""}
+                      onChange={e => setForm(f=>({...f,bio:e.target.value}))}
+                      placeholder="Tell us about yourself…"
+                      onFocus={() => setFocusedField("bio")}
+                      onBlur={() => setFocusedField(null)}
+                    />
                   : <p className={styles.bioText}>{user.bio || <span className={styles.fieldEmpty}>No bio yet.</span>}</p>
                 }
               </div>
@@ -297,17 +354,28 @@ export default function Profile() {
         ══════════════════════════════════════════ */}
         {activeTab === "orders" && (
           <div className={styles.tabPanel}>
+            <div className={styles.sectionBg} aria-hidden="true">02</div>
+
             <div className={styles.panelHead}>
-              <div className={styles.sectionEye}><div className={styles.eyeBar} /><span>Recent Orders</span></div>
+              <div className={styles.sectionEye}>
+                <span className={styles.eyeBar} />
+                <span>Recent Orders</span>
+              </div>
               <button className={styles.btnGhost} onClick={() => navigate("/orders")}>View All Orders →</button>
             </div>
 
             {orders.length === 0 ? (
               <div className={styles.emptyState}>
-                <span className={styles.emptyIcon}>📦</span>
-                <p className={styles.emptyTitle}>No orders yet</p>
-                <p className={styles.emptyDesc}>Your order history will appear here.</p>
-                <button className={styles.btnSave} onClick={() => navigate("/products")}>Browse The Drop →</button>
+                <span className={styles.emptyBg} aria-hidden="true">0</span>
+                <div className={styles.emptyInner}>
+                  <div className={styles.emptyEye}><span className={styles.eyeBar}/><span>Orders</span></div>
+                  <div className={styles.emptyTitle}>Nothing<br /><em className={styles.emptyStroke}>Yet.</em></div>
+                  <p className={styles.emptyDesc}>Your order history will appear here.</p>
+                  <button className={styles.btnSave} onClick={() => navigate("/products")}>
+                    <span className={styles.btnSaveBg} />
+                    <span className={styles.btnSaveLabel}>Browse The Drop →</span>
+                  </button>
+                </div>
               </div>
             ) : (
               <div className={styles.orderList}>
@@ -315,7 +383,8 @@ export default function Profile() {
                   const st = getStatus(o.status);
                   return (
                     <div key={o.id || i} className={styles.orderRow}>
-                      {/* items thumbnails */}
+                      <span className={styles.orderIdx}>{String(i+1).padStart(2,"0")}</span>
+
                       <div className={styles.orderThumbs}>
                         {(o.items || o.cartItems || []).slice(0,3).map((it, j) => (
                           <div key={j} className={styles.orderThumb}>
@@ -336,7 +405,10 @@ export default function Profile() {
 
                       <span className={styles.orderTotal}>R{Number(o.total||0).toFixed(2)}</span>
 
-                      <span className={styles.statusBadge} style={{ color:st.color, background:st.bg, border:`1px solid ${st.color}30` }}>
+                      <span
+                        className={styles.statusBadge}
+                        style={{ color:st.color, background:st.bg, borderColor:`${st.color}30` }}
+                      >
                         <span className={styles.statusDot} style={{ background:st.color }} />
                         {st.label}
                       </span>
@@ -353,17 +425,33 @@ export default function Profile() {
         ══════════════════════════════════════════ */}
         {activeTab === "wishlist" && (
           <div className={styles.tabPanel}>
+            <div className={styles.sectionBg} aria-hidden="true">03</div>
+
             <div className={styles.panelHead}>
-              <div className={styles.sectionEye}><div className={styles.eyeBar} /><span>Saved Items</span></div>
-              {wishlist.length > 0 && <span className={styles.countPill}>{wishlist.length} items</span>}
+              <div className={styles.sectionEye}>
+                <span className={styles.eyeBar} />
+                <span>Saved Items</span>
+              </div>
+              {wishlist.length > 0 && (
+                <div className={styles.countBadge}>
+                  <span className={styles.countN}>{wishlist.length}</span>
+                  <span className={styles.countL}>items</span>
+                </div>
+              )}
             </div>
 
             {wishlist.length === 0 ? (
               <div className={styles.emptyState}>
-                <span className={styles.emptyIcon}>♡</span>
-                <p className={styles.emptyTitle}>Nothing saved yet</p>
-                <p className={styles.emptyDesc}>Heart products on the shop to save them here.</p>
-                <button className={styles.btnSave} onClick={() => navigate("/products")}>Browse The Drop →</button>
+                <span className={styles.emptyBg} aria-hidden="true">♡</span>
+                <div className={styles.emptyInner}>
+                  <div className={styles.emptyEye}><span className={styles.eyeBar}/><span>Wishlist</span></div>
+                  <div className={styles.emptyTitle}>Nothing<br /><em className={styles.emptyStroke}>Saved.</em></div>
+                  <p className={styles.emptyDesc}>Heart products on the shop to save them here.</p>
+                  <button className={styles.btnSave} onClick={() => navigate("/products")}>
+                    <span className={styles.btnSaveBg} />
+                    <span className={styles.btnSaveLabel}>Browse The Drop →</span>
+                  </button>
+                </div>
               </div>
             ) : (
               <div className={styles.wishGrid}>
@@ -375,14 +463,19 @@ export default function Profile() {
                         : <div className={styles.wishImgPlaceholder}>👟</div>
                       }
                       <button className={styles.wishRemove} onClick={() => removeWishlist(item.id)} title="Remove">✕</button>
+                      <div className={styles.wishOverlay} />
                     </div>
                     <div className={styles.wishInfo}>
                       <span className={styles.wishCat}>{item.category || "Sneakers"}</span>
                       <span className={styles.wishName}>{item.name}</span>
                       <span className={styles.wishPrice}>R{Number(item.price||0).toFixed(2)}</span>
                     </div>
-                    <button className={styles.wishAddBtn} onClick={() => { addWishlistToCart(item); navigate("/cart"); }}>
-                      Add to Cart
+                    <button
+                      className={styles.wishAddBtn}
+                      onClick={() => { addWishlistToCart(item); navigate("/cart"); }}
+                    >
+                      <span className={styles.wishAddBtnBg} />
+                      <span className={styles.wishAddBtnLabel}>Add to Cart</span>
                     </button>
                   </div>
                 ))}
@@ -396,11 +489,20 @@ export default function Profile() {
         ══════════════════════════════════════════ */}
         {activeTab === "addresses" && (
           <div className={styles.tabPanel}>
+            <div className={styles.sectionBg} aria-hidden="true">04</div>
+
             <div className={styles.panelHead}>
-              <div className={styles.sectionEye}><div className={styles.eyeBar} /><span>Delivery Addresses</span></div>
+              <div className={styles.sectionEye}>
+                <span className={styles.eyeBar} />
+                <span>Delivery Addresses</span>
+              </div>
               {addrEdit === null && (
-                <button className={styles.btnSave} onClick={() => { setAddrEdit("new"); setAddrForm({ label:"Home", street:"", city:"", province:"", code:"", isDefault:false }); }}>
-                  + Add Address
+                <button
+                  className={styles.btnSave}
+                  onClick={() => { setAddrEdit("new"); setAddrForm({ label:"Home", street:"", city:"", province:"", code:"", isDefault:false }); }}
+                >
+                  <span className={styles.btnSaveBg} />
+                  <span className={styles.btnSaveLabel}>+ Add Address</span>
                 </button>
               )}
             </div>
@@ -409,30 +511,54 @@ export default function Profile() {
             {addrEdit !== null && (
               <div className={styles.addrForm}>
                 <div className={styles.addrFormHead}>
-                  <div className={styles.sectionEye}><div className={styles.eyeBar} /><span>{addrEdit === "new" ? "New Address" : "Edit Address"}</span></div>
+                  <div className={styles.sectionEye}>
+                    <span className={styles.eyeBar} />
+                    <span>{addrEdit === "new" ? "New Address" : "Edit Address"}</span>
+                  </div>
                 </div>
                 <div className={styles.fieldsGrid}>
                   {[
-                    { key:"label",    label:"Label",    type:"text", placeholder:"Home / Work / Other", full:false },
-                    { key:"street",   label:"Street",   type:"text", placeholder:"123 Mandela Ave",     full:true  },
-                    { key:"city",     label:"City",     type:"text", placeholder:"Johannesburg",        full:false },
-                    { key:"province", label:"Province", type:"text", placeholder:"Gauteng",             full:false },
-                    { key:"code",     label:"Postal Code",type:"text",placeholder:"2000",              full:false },
+                    { key:"label",    label:"Label",       type:"text", placeholder:"Home / Work / Other", full:false },
+                    { key:"street",   label:"Street",      type:"text", placeholder:"123 Mandela Ave",     full:true  },
+                    { key:"city",     label:"City",        type:"text", placeholder:"Johannesburg",        full:false },
+                    { key:"province", label:"Province",    type:"text", placeholder:"Gauteng",             full:false },
+                    { key:"code",     label:"Postal Code", type:"text", placeholder:"2000",                full:false },
                   ].map(({ key, label, type, placeholder, full }) => (
-                    <div key={key} className={`${styles.field} ${full ? styles.fieldFull : ""}`}>
+                    <div
+                      key={key}
+                      className={`${styles.field} ${full ? styles.fieldFull : ""}`}
+                      data-focused={focusedField === `addr_${key}` ? "true" : undefined}
+                    >
+                      <span className={styles.fieldAccentBar} />
                       <label className={styles.fieldLabel}>{label}</label>
-                      <input className={styles.input} type={type} value={addrForm[key]||""} onChange={e => setAddrForm(f=>({...f,[key]:e.target.value}))} placeholder={placeholder} />
+                      <input
+                        className={styles.input}
+                        type={type}
+                        value={addrForm[key]||""}
+                        onChange={e => setAddrForm(f=>({...f,[key]:e.target.value}))}
+                        placeholder={placeholder}
+                        onFocus={() => setFocusedField(`addr_${key}`)}
+                        onBlur={() => setFocusedField(null)}
+                      />
                     </div>
                   ))}
                   <div className={`${styles.field} ${styles.fieldFull}`}>
                     <label className={styles.checkRow}>
-                      <input type="checkbox" checked={addrForm.isDefault} onChange={e => setAddrForm(f=>({...f,isDefault:e.target.checked}))} className={styles.checkbox} />
+                      <input
+                        type="checkbox"
+                        checked={addrForm.isDefault}
+                        onChange={e => setAddrForm(f=>({...f,isDefault:e.target.checked}))}
+                        className={styles.checkbox}
+                      />
                       <span className={styles.checkLabel}>Set as default delivery address</span>
                     </label>
                   </div>
                 </div>
                 <div className={styles.addrFormBtns}>
-                  <button className={styles.btnSave} onClick={saveAddress}>Save Address</button>
+                  <button className={styles.btnSave} onClick={saveAddress}>
+                    <span className={styles.btnSaveBg} />
+                    <span className={styles.btnSaveLabel}>Save Address</span>
+                  </button>
                   <button className={styles.btnGhost} onClick={() => setAddrEdit(null)}>Cancel</button>
                 </div>
               </div>
@@ -440,15 +566,19 @@ export default function Profile() {
 
             {addresses.length === 0 && addrEdit === null ? (
               <div className={styles.emptyState}>
-                <span className={styles.emptyIcon}>📍</span>
-                <p className={styles.emptyTitle}>No addresses saved</p>
-                <p className={styles.emptyDesc}>Add a delivery address to speed up checkout.</p>
+                <span className={styles.emptyBg} aria-hidden="true">📍</span>
+                <div className={styles.emptyInner}>
+                  <div className={styles.emptyEye}><span className={styles.eyeBar}/><span>Addresses</span></div>
+                  <div className={styles.emptyTitle}>None<br /><em className={styles.emptyStroke}>Saved.</em></div>
+                  <p className={styles.emptyDesc}>Add a delivery address to speed up checkout.</p>
+                </div>
               </div>
             ) : (
               <div className={styles.addrList}>
                 {addresses.map((a, i) => (
                   <div key={i} className={`${styles.addrCard} ${a.isDefault ? styles.addrCardDefault : ""}`}>
                     {a.isDefault && <div className={styles.defaultBadge}>Default</div>}
+                    <span className={styles.addrIdx}>{String(i+1).padStart(2,"0")}</span>
                     <div className={styles.addrLabel}>{a.label || "Address"}</div>
                     <div className={styles.addrLines}>
                       <span>{a.street}</span>
@@ -473,14 +603,20 @@ export default function Profile() {
         ══════════════════════════════════════════ */}
         {activeTab === "security" && (
           <div className={styles.tabPanel}>
+            <div className={styles.sectionBg} aria-hidden="true">05</div>
+
             <div className={styles.panelHead}>
-              <div className={styles.sectionEye}><div className={styles.eyeBar} /><span>Security</span></div>
+              <div className={styles.sectionEye}>
+                <span className={styles.eyeBar} />
+                <span>Security</span>
+              </div>
             </div>
 
             <div className={styles.securityGrid}>
 
               {/* change password */}
               <div className={styles.secCard}>
+                <div className={styles.secAccent} />
                 <div className={styles.secCardHead}>
                   <span className={styles.secIcon}>🔒</span>
                   <div>
@@ -491,11 +627,16 @@ export default function Profile() {
 
                 <form className={styles.pwForm} onSubmit={handlePwChange} noValidate>
                   {[
-                    { key:"current", label:"Current Password",  show:"c"  },
-                    { key:"next",    label:"New Password",       show:"n"  },
-                    { key:"confirm", label:"Confirm Password",   show:"cf" },
+                    { key:"current", label:"Current Password", show:"c"  },
+                    { key:"next",    label:"New Password",      show:"n"  },
+                    { key:"confirm", label:"Confirm Password",  show:"cf" },
                   ].map(({ key, label, show }) => (
-                    <div key={key} className={styles.field}>
+                    <div
+                      key={key}
+                      className={styles.field}
+                      data-focused={focusedField === `pw_${key}` ? "true" : undefined}
+                    >
+                      <span className={styles.fieldAccentBar} />
                       <label className={styles.fieldLabel}>{label}</label>
                       <div className={styles.pwWrap}>
                         <input
@@ -505,6 +646,8 @@ export default function Profile() {
                           onChange={e => setPwForm(f=>({...f,[key]:e.target.value}))}
                           placeholder="••••••••"
                           autoComplete="off"
+                          onFocus={() => setFocusedField(`pw_${key}`)}
+                          onBlur={() => setFocusedField(null)}
                         />
                         <button type="button" className={styles.eyeBtn} onClick={() => setShowPw(s=>({...s,[show]:!s[show]}))}>
                           {showPw[show]
@@ -529,12 +672,16 @@ export default function Profile() {
                     </div>
                   )}
 
-                  <button type="submit" className={styles.btnSave} style={{ marginTop: 6 }}>Update Password</button>
+                  <button type="submit" className={styles.btnSave} style={{ marginTop: 6 }}>
+                    <span className={styles.btnSaveBg} />
+                    <span className={styles.btnSaveLabel}>Update Password</span>
+                  </button>
                 </form>
               </div>
 
               {/* account info */}
               <div className={styles.secCard}>
+                <div className={styles.secAccent} />
                 <div className={styles.secCardHead}>
                   <span className={styles.secIcon}>👤</span>
                   <div>
@@ -556,7 +703,7 @@ export default function Profile() {
                 </div>
 
                 <button className={styles.logoutCardBtn} onClick={handleLogout}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                   Log Out of Account
                 </button>
               </div>
