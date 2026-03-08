@@ -390,18 +390,74 @@
 .successActions { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
 
 /* ── Responsive ─────────────────────────────────────────────────────── */
-@media (max-width:900px) {
-  .body { grid-template-columns:1fr; }
-  .summaryCol { position:static; }
-  .payGrid { grid-template-columns:1fr 1fr; }
+
+/* Large tablet: compress summary */
+@media (max-width: 1100px) {
+  .body { grid-template-columns: 1fr 300px; gap: 18px; }
+  .formCard { padding: 24px 26px; }
 }
 
-@media (max-width:600px) {
-  .main { padding:56px 16px 60px; }
-  .formCard { padding:20px 18px; }
-  .fieldHalf { flex:0 0 100%; }
-  .payGrid { grid-template-columns:1fr; }
-  .stepper { padding:14px 16px; }
-  .stepLabel { display:none; }
-  .stepLine { min-width:16px; margin:0 8px; }
+/* Tablet landscape: stack layout */
+@media (max-width: 900px) {
+  .body { grid-template-columns: 1fr; }
+  .summaryCol { position: static; }
+  .payGrid { grid-template-columns: 1fr 1fr; }
+  .pageTitle { font-size: clamp(44px, 9vw, 72px); }
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+  .main { padding: 64px clamp(16px, 4vw, 28px) 60px; }
+  .stepper { padding: 16px 20px; gap: 0; }
+  .stepLabel { font-size: 10px; letter-spacing: 1px; }
+  .deliveryCard { padding: 12px 14px; }
+  .formCard { padding: 22px 22px; }
+  .successTitle { font-size: clamp(44px, 10vw, 68px); }
+}
+
+/* Large phone */
+@media (max-width: 600px) {
+  .main { padding: 56px 16px 56px; }
+  .formCard { padding: 18px 16px; }
+  .fieldHalf { flex: 0 0 100%; }
+  .payGrid { grid-template-columns: 1fr; }
+  .stepper { padding: 12px 14px; border-radius: 8px; }
+  .stepLabel { display: none; }
+  .stepLine { min-width: 14px; margin: 0 7px; }
+  .stepCircle { width: 26px; height: 26px; font-size: 11px; }
+  .pageTitle { font-size: clamp(38px, 11vw, 60px); }
+  .formNav { flex-direction: column-reverse; gap: 10px; }
+  .formNav > * { width: 100%; justify-content: center; }
+  .btnBig { min-height: 48px; font-size: 12px; }
+  .deliveryCard { gap: 10px; }
+  .deliveryLabel { font-size: 13px; }
+  .successActions { flex-direction: column; }
+  .successActions > * { width: 100%; justify-content: center; }
+  .cardPreview { padding: 18px 18px; }
+  .cardPreviewNum { font-size: 15px; letter-spacing: 2px; }
+  .totalAmount { font-size: 24px; }
+}
+
+/* Small phone */
+@media (max-width: 430px) {
+  .main { padding: 52px 14px 48px; }
+  .formCard { padding: 16px 14px; }
+  .label { font-size: 9px; }
+  .input { padding: 10px 12px; font-size: 12px; }
+  .pageTitle { font-size: 34px; letter-spacing: -1.5px; }
+  .stepper { padding: 10px 12px; }
+  .stepLine { min-width: 10px; margin: 0 5px; }
+  .deliveryIcon { display: none; }
+  .successTitle { font-size: 36px; }
+  .itemName { font-size: 12px; }
+  .itemTotal { font-size: 13px; }
+  .totalAmount { font-size: 22px; }
+}
+
+/* Tiny / foldable */
+@media (max-width: 360px) {
+  .main { padding: 48px 12px 44px; }
+  .pageTitle { font-size: 30px; }
+  .btnRed, .btnGhost { padding: 11px 16px; font-size: 11px; letter-spacing: 1.5px; }
+  .formCard { padding: 14px 12px; }
 }

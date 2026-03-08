@@ -243,20 +243,105 @@
 .emptyDesc { font-size:13px; color:var(--sub); font-family:var(--fb); line-height:1.7; margin-bottom:8px; }
 
 /* RESPONSIVE */
-@media (max-width: 860px) {
-  .identityBar   { flex-direction:column; align-items:flex-start; }
-  .identityStats { width:100%; border-top:1px solid var(--line); padding-top:16px; }
-  .iStat:first-child { border-left:none; padding-left:0; }
-  .securityGrid  { grid-template-columns:1fr; }
-  .fieldsGrid    { grid-template-columns:1fr; }
-  .fieldFull     { grid-column:auto; }
-  .tabPanel      { padding:24px 20px 32px; }
+
+/* Large tablet: compress tab padding, tighten layout */
+@media (max-width: 1100px) {
+  .main { padding: clamp(80px,9vw,100px) clamp(16px,4vw,48px) 60px; }
+  .pageTitle { font-size: clamp(52px,9vw,96px); }
+  .iStat { padding: 10px 18px; }
+  .wishGrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
 }
+
+/* Tablet landscape */
+@media (max-width: 900px) {
+  .pageTitle { font-size: clamp(46px,10vw,80px); }
+  .headerBg { font-size: clamp(60px,13vw,140px); }
+  .identityName { font-size: 18px; }
+  .iStatN { font-size: 22px; }
+  .tabBtn { padding: 14px 16px; font-size: 10px; letter-spacing: 2px; }
+}
+
+/* Tablet portrait: identity bar stacks */
+@media (max-width: 860px) {
+  .identityBar { flex-direction: column; align-items: flex-start; }
+  .identityStats { width: 100%; border-top: 1px solid var(--line); padding-top: 16px; }
+  .iStat:first-child { border-left: none; padding-left: 0; }
+  .securityGrid { grid-template-columns: 1fr; }
+  .fieldsGrid { grid-template-columns: 1fr; }
+  .fieldFull { grid-column: auto; }
+  .tabPanel { padding: 24px 20px 32px; }
+  .addrList { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+}
+
+/* Large phone */
+@media (max-width: 640px) {
+  .main { padding: clamp(72px,9vw,88px) 16px 52px; }
+  .identityBar { padding: 18px 18px; }
+  .identityLeft { gap: 14px; }
+  .avatarWrap, .avatarImg, .avatarInitials { width: 56px; height: 56px; }
+  .avatarInitials { font-size: 18px; }
+  .identityName { font-size: 16px; }
+  .identityEmail { font-size: 11px; }
+  .iStat { padding: 10px 14px; }
+  .iStatN { font-size: 20px; }
+  .iStatL { font-size: 7px; letter-spacing: 2px; }
+  .tabBtn { padding: 13px 13px; font-size: 9px; letter-spacing: 1.5px; }
+  .tabIdx { display: none; }
+  .tabPanel { padding: 20px 16px 28px; }
+  .pageTitle { font-size: clamp(38px, 11vw, 64px); letter-spacing: -2px; }
+  .headerBg { font-size: clamp(50px, 14vw, 100px); }
+  .logoutBtn { padding: 9px 14px; font-size: 9px; letter-spacing: 2px; }
+}
+
+/* Mobile */
 @media (max-width: 600px) {
-  .tabBtn   { padding:14px 14px; font-size:9px; }
-  .orderRow { flex-wrap:wrap; }
-  .wishGrid { grid-template-columns:1fr 1fr; }
-  .addrList { grid-template-columns:1fr; }
-  .identityStats { overflow-x:auto; scrollbar-width:none; }
-  .identityStats::-webkit-scrollbar { display:none; }
+  .tabBtn { padding: 12px 12px; font-size: 9px; }
+  .orderRow { flex-wrap: wrap; gap: 10px; }
+  .orderThumbs { display: none; }
+  .orderTotal { flex: none; width: 100%; border-top: 1px solid var(--line); padding-top: 8px; }
+  .statusBadge { align-self: flex-start; }
+  .wishGrid { grid-template-columns: 1fr 1fr; }
+  .wishImgWrap { height: 140px; }
+  .addrList { grid-template-columns: 1fr; }
+  .identityStats { overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+  .identityStats::-webkit-scrollbar { display: none; }
+  .secCard { padding: 20px 18px; }
+  .secTitle { font-size: 15px; }
+  .panelHead { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .panelActions { flex-wrap: wrap; }
+  .addrForm { padding: 18px 16px; }
+  .addrFormBtns { flex-wrap: wrap; }
+  .emptyTitle { font-size: clamp(30px, 9vw, 48px); }
+}
+
+/* Small phone */
+@media (max-width: 430px) {
+  .main { padding: 68px 12px 44px; }
+  .identityBar { padding: 14px 14px; }
+  .avatarWrap, .avatarImg, .avatarInitials { width: 48px; height: 48px; }
+  .avatarInitials { font-size: 16px; }
+  .identityName { font-size: 15px; }
+  .memberBadge { font-size: 7px; letter-spacing: 1.5px; padding: 3px 9px; }
+  .tabBtn { padding: 11px 10px; font-size: 8px; letter-spacing: 1px; }
+  .tabPanel { padding: 16px 13px 24px; }
+  .wishGrid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .wishImgWrap { height: 120px; }
+  .orderRow { padding: 11px 12px; }
+  .orderId { font-size: 12px; }
+  .orderDate { font-size: 10px; }
+  .orderTotal { font-size: 15px; }
+  .pageTitle { font-size: 34px; }
+  .iStatN { font-size: 18px; }
+  .countN { font-size: 18px; }
+  .btnSave, .btnWhite, .btnGhost { padding: 9px 16px; font-size: 9px; letter-spacing: 2px; }
+}
+
+/* Tiny / foldable */
+@media (max-width: 360px) {
+  .main { padding: 64px 10px 40px; }
+  .identityBar { padding: 12px 12px; gap: 12px; }
+  .pageTitle { font-size: 30px; }
+  .tabBtn { padding: 10px 8px; font-size: 8px; }
+  .wishGrid { grid-template-columns: 1fr; }
+  .addrCard { padding: 16px 14px; }
 }

@@ -601,17 +601,83 @@
 /* ════════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════════ */
+
+/* Large tablet: compress summary width */
+@media (max-width: 1100px) {
+  .summary { flex: 0 0 clamp(260px, 24vw, 320px); }
+  .summaryTitle { font-size: clamp(30px, 3.5vw, 44px); }
+}
+
+/* Tablet landscape: stack layout, full-width summary */
 @media (max-width: 900px) {
   .layout { flex-direction: column; }
   .summary { position: static; flex: none; width: 100%; }
   .headingMeta { display: none; }
+  .heading { font-size: clamp(52px, 10vw, 88px); }
+  .bgNum { font-size: clamp(80px, 14vw, 160px); }
+  .totalAmt { font-size: clamp(26px, 4vw, 34px); }
 }
 
+/* Tablet portrait */
+@media (max-width: 768px) {
+  .page { padding: clamp(72px, 9vw, 96px) clamp(16px, 4vw, 28px) 56px; }
+  .imgWrap { width: clamp(80px, 14vw, 110px); height: clamp(80px, 14vw, 110px); }
+  .summaryInner { padding: 20px; }
+  .heading { font-size: clamp(46px, 11vw, 76px); }
+  .emptyTitle { font-size: clamp(44px, 10vw, 72px); }
+}
+
+/* Large phone */
 @media (max-width: 600px) {
-  .page { padding: 80px 16px 60px; }
+  .page { padding: 76px 16px 52px; }
+  .headerProgress { max-width: 100%; }
+
+  /* item rows */
+  .cartItem { gap: 12px; padding: 16px 0; }
   .itemTop { flex-direction: column; gap: 6px; }
   .itemPrice { text-align: left; }
-  .itemBottom { flex-direction: column; align-items: flex-start; }
+  .itemBottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .imgWrap { width: 80px; height: 80px; }
+
+  /* summary */
+  .summaryTitle { font-size: clamp(28px, 8vw, 42px); }
+  .totalAmt { font-size: clamp(24px, 7vw, 32px); }
+  .checkoutBtn { min-height: 48px; font-size: 11px; }
+
+  /* empty state */
   .empty { flex-direction: column; gap: 0; }
   .emptyNum { display: none; }
+  .emptyTitle { font-size: clamp(40px, 12vw, 64px); }
+  .emptyBtn { align-self: stretch; justify-content: center; }
+
+  /* heading */
+  .heading { font-size: clamp(42px, 13vw, 68px); letter-spacing: -2px; }
+  .subheading { font-size: 12px; }
+}
+
+/* Small phone */
+@media (max-width: 430px) {
+  .page { padding: 72px 14px 48px; }
+  .cartItem { gap: 10px; }
+  .imgWrap { width: 70px; height: 70px; }
+  .itemName { font-size: 17px; }
+  .priceSale { font-size: 18px; }
+  .qtyBtn { width: 32px; height: 32px; }
+  .qtyVal { width: 36px; height: 32px; font-size: 13px; }
+  .metaTag, .saveBadge { font-size: 8px; padding: 2px 8px; }
+  .heading { font-size: 38px; }
+  .summaryTitle { font-size: 26px; }
+  .totalAmt { font-size: 24px; }
+  .trustItem { font-size: 7px; }
+  .trustItem span:first-child { font-size: 13px; }
+}
+
+/* Tiny / foldable */
+@media (max-width: 360px) {
+  .page { padding: 68px 12px 44px; }
+  .heading { font-size: 34px; letter-spacing: -1.5px; }
+  .imgWrap { width: 62px; height: 62px; }
+  .summaryTitle { font-size: 22px; }
+  .totalAmt { font-size: 22px; }
+  .checkoutBtn { font-size: 10px; letter-spacing: 2px; }
 }
