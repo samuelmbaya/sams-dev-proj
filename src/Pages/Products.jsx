@@ -37,9 +37,6 @@ body{background:#060606;color:#fff;font-family:'Barlow',sans-serif;overflow-x:hi
 .sn-sz{background:var(--bg2);color:var(--sub);border:1px solid var(--line);padding:8px 14px;font-size:11px;font-weight:900;font-family:var(--fd);letter-spacing:1px;cursor:pointer;transition:all .18s;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);}
 .sn-sz:hover{border-color:var(--sub);color:#fff}
 .sn-sz.on{background:#fff;color:#000;border-color:#fff}
-.sn-cat{padding:9px 22px;border:1px solid var(--line);background:transparent;color:var(--sub);font-size:10px;font-weight:900;font-family:var(--fd);letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
-.sn-cat:hover{border-color:var(--sub);color:var(--text)}
-.sn-cat.on{background:var(--red);border-color:var(--red);color:#fff}
 .sn-pri{position:relative;overflow:hidden;background:none;color:#fff;border:2px solid #fff;font-size:11px;font-weight:900;font-family:var(--fd);letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:color .22s;padding:13px 22px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);display:inline-flex;align-items:center;gap:8px;}
 .sn-pri::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .28s cubic-bezier(.16,1,.3,1);}
 .sn-pri:hover::before{transform:translateX(0)}
@@ -85,7 +82,6 @@ body{background:#060606;color:#fff;font-family:'Barlow',sans-serif;overflow-x:hi
 const pp  = p => typeof p === "number" ? p : parseFloat(String(p).replace(/[^0-9.-]+/g,"")) || 0;
 const gid = p => p._id || p.id;
 const SIZES = ["UK 5","UK 6","UK 7","UK 8","UK 9","UK 10","UK 11","UK 12"];
-const CATS  = ["all","mens","women","kids"];
 const ATTRS = [
   {attr:"Upper Material",value:"Premium Leather / Canvas"},
   {attr:"Sole",value:"Vulcanised Rubber, Cushioned Insole"},
@@ -128,7 +124,7 @@ const Modal = memo(({ product, related, onClose, onAddToCart, onBuyNow }) => {
   const [loaded,setLoaded]=useState(false);const [sizeErr,setSizeErr]=useState(false);
   const pid=product._id||product.id||"x";
   const images=product.images?.length>=2?product.images:[product.image,
-    `https://source.unsplash.com/900x900/?sneaker,${encodeURIComponent(product.category||"shoe")}&sig=${pid}A`,
+    `https://source.unsplash.com/900x900/?sneaker&sig=${pid}A`,
     `https://source.unsplash.com/900x900/?shoe,${encodeURIComponent((product.name||"").split(" ")[0]||"kick")}&sig=${pid}B`,
     `https://source.unsplash.com/900x900/?footwear,sole&sig=${pid}C`];
   const price=pp(product.price);const orig=(price*1.28).toFixed(2);
@@ -172,8 +168,6 @@ const Modal = memo(({ product, related, onClose, onAddToCart, onBuyNow }) => {
           </div>
           <div style={{flex:"1 1 360px",padding:"32px 28px",display:"flex",flexDirection:"column",gap:16,position:"relative",zIndex:1}}>
             <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
-              <span style={{...FD,fontSize:10,fontWeight:900,letterSpacing:4,color:"var(--red)",textTransform:"uppercase"}}>{product.category||"Sneakers"}</span>
-              <span style={{color:"var(--line)"}}>·</span>
               <Chip col="#4ADE80" bg="rgba(74,222,128,.08)">● In Stock</Chip>
               <Chip col="var(--gold)" bg="rgba(212,168,67,.08)">Bestseller</Chip>
             </div>
@@ -213,8 +207,7 @@ const Modal = memo(({ product, related, onClose, onAddToCart, onBuyNow }) => {
             </div>
             <div style={{fontSize:10,color:"var(--muted)",lineHeight:2,borderTop:"1px solid var(--line)",paddingTop:12,...FD,fontWeight:700,letterSpacing:.5}}>
               <span style={{color:"var(--sub)"}}>SKU:</span>&nbsp;{(product._id||"").slice(-8).toUpperCase()||"N/A"}&nbsp;·&nbsp;
-              <span style={{color:"var(--sub)"}}>Brand:</span>&nbsp;{(product.name||"").split(" ")[0]||"ShoeNation"}&nbsp;·&nbsp;
-              <span style={{color:"var(--sub)"}}>Category:</span>&nbsp;{product.category||"Sneakers"}
+              <span style={{color:"var(--sub)"}}>Brand:</span>&nbsp;{(product.name||"").split(" ")[0]||"ShoeNation"}
             </div>
           </div>
         </div>
@@ -292,7 +285,6 @@ const Modal = memo(({ product, related, onClose, onAddToCart, onBuyNow }) => {
                 <div key={gid(rp)} className="rcard">
                   <div style={{height:140,overflow:"hidden",background:"var(--bg2)"}}><img src={rp.image} alt={rp.name} className="sn-img" style={{width:"100%",height:"100%",objectFit:"cover"}}/></div>
                   <div style={{padding:"10px 12px"}}>
-                    <div style={{fontSize:9,color:"var(--muted)",textTransform:"uppercase",letterSpacing:2,marginBottom:3,...FD,fontWeight:900}}>{rp.category}</div>
                     <div style={{fontSize:13,fontWeight:900,color:"#fff",...FD,lineHeight:1.2,marginBottom:5}}>{rp.name}</div>
                     <div style={{...FD,fontWeight:900,fontSize:16,color:"var(--red)"}}>R{rp_.toFixed(2)}</div>
                   </div>
@@ -318,7 +310,6 @@ const ProductCard = memo(({ product, onOpen, onAddToCart, idx }) => {
         <div className="sn-card-overlay"/>
         <button className="sn-acc sn-quick-add" onClick={handleQuickAdd}><span>+ Quick Add</span></button>
         <div className="sn-disc-badge">−{disc}%</div>
-        <div style={{position:"absolute",top:12,right:12,background:"rgba(0,0,0,.82)",backdropFilter:"blur(8px)",color:"var(--sub)",fontSize:9,fontWeight:900,padding:"4px 10px",letterSpacing:2.5,textTransform:"uppercase",fontFamily:"var(--fd)",border:"1px solid rgba(255,255,255,.06)"}}>{product.category||"Sneakers"}</div>
         <div style={{position:"absolute",top:40,right:12,fontFamily:"var(--fd)",fontSize:10,fontWeight:900,letterSpacing:2,color:"rgba(255,255,255,.2)",pointerEvents:"none",zIndex:3}}>0{(idx%9)+1}</div>
       </div>
       <div style={{padding:"16px 18px 20px",position:"relative",zIndex:1}}>
@@ -345,7 +336,6 @@ const Skel = memo(({ i }) => (
 const Products = () => {
   const navigate=useNavigate();
   const [products,setProducts]=useState([]);
-  const [category,setCategory]=useState("all");
   const [selected,setSelected]=useState(null);const [toast,setToast]=useState("");const [loading,setLoading]=useState(true);
   const [cart,setCart]=useState(()=>{try{return JSON.parse(localStorage.getItem("cart"))||[];}catch{return[];}});
   const cartCount=cart.reduce((s,it)=>s+it.qty,0);
@@ -353,10 +343,9 @@ const Products = () => {
   const showToast=useCallback(msg=>{setToast(msg);clearTimeout(toastTimer.current);toastTimer.current=setTimeout(()=>setToast(""),2800);},[]);
   const addToCart=useCallback((product,qty=1)=>{const id=gid(product);setCart(prev=>{const ex=prev.find(it=>it.id===id);const next=ex?prev.map(it=>it.id===id?{...it,qty:it.qty+qty}:it):[...prev,{id,name:product.name,price:pp(product.price),image:product.image,qty}];localStorage.setItem("cart",JSON.stringify(next));return next;});showToast(`${product.name} added to cart`);},[showToast]);
   const handleBuyNow=useCallback((product,qty=1)=>{addToCart(product,qty);navigate("/cart");},[addToCart,navigate]);
-  const fetchProducts=useCallback(async(cat="all")=>{setLoading(true);try{const key=`sn_products_${cat}`;const cached=localStorage.getItem(key);if(cached){const p=JSON.parse(cached);setProducts(p);}const url=cat==="all"?`${backendurl}/products`:`${backendurl}/products?category=${cat}`;const res=await fetch(url);if(!res.ok)throw new Error();const result=await res.json();const arr=Array.isArray(result)?result:result.data||[];setProducts(arr);localStorage.setItem(key,JSON.stringify(arr));}catch(e){console.error(e);}finally{setLoading(false);}},[]);
-  useEffect(()=>{fetchProducts("all");},[fetchProducts]);
-  const handleCatChange=useCallback(cat=>{setCategory(cat);fetchProducts(cat);},[fetchProducts]);
-  const related=selected?products.filter(p=>gid(p)!==gid(selected)&&p.category===selected.category).slice(0,4):[];
+  const fetchProducts=useCallback(async()=>{setLoading(true);try{const cached=localStorage.getItem("sn_products");if(cached){setProducts(JSON.parse(cached));}const res=await fetch(`${backendurl}/products`);if(!res.ok)throw new Error();const result=await res.json();const arr=Array.isArray(result)?result:result.data||[];setProducts(arr);localStorage.setItem("sn_products",JSON.stringify(arr));}catch(e){console.error(e);}finally{setLoading(false);}},[]);
+  useEffect(()=>{fetchProducts();},[fetchProducts]);
+  const related=selected?products.filter(p=>gid(p)!==gid(selected)).slice(0,4):[];
   return (
     <div style={{overflowX:"hidden",width:"100%"}}>
       <style>{GLOBAL_CSS}</style>
@@ -388,9 +377,8 @@ const Products = () => {
               </div>
             </div>
           </div>
-          <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center",animation:"fadeUp .7s ease"}}>
-            {CATS.map(cat=><button key={cat} className={`sn-cat${category===cat?" on":""}`} onClick={()=>handleCatChange(cat)}>{cat==="all"?"All Styles":cat.charAt(0).toUpperCase()+cat.slice(1)}</button>)}
-            <span style={{marginLeft:"auto",fontFamily:"var(--fd)",fontSize:10,fontWeight:900,letterSpacing:2,color:"var(--muted)"}}>{products.length} STYLES</span>
+          <div style={{display:"flex",alignItems:"center",animation:"fadeUp .7s ease"}}>
+            <span style={{fontFamily:"var(--fd)",fontSize:10,fontWeight:900,letterSpacing:2,color:"var(--muted)"}}>{products.length} STYLES</span>
           </div>
         </div>
       </section>
